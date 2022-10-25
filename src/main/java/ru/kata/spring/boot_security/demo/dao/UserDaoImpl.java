@@ -30,7 +30,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getAll() {
-        TypedQuery<User> query = entityManager.createQuery("SELECT u.roles from User u where u.login = :login", User.class);
+        TypedQuery<User> query = entityManager.createQuery("SELECT u from User u", User.class);
         return query.getResultList();
     }
 

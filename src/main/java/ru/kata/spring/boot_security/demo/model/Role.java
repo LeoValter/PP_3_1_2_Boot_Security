@@ -59,6 +59,11 @@ public class Role implements GrantedAuthority {
         return name;
     }
 
+    public String getNoPrefixName() {
+        String prefix = "ROLE_";
+        return name.substring(prefix.length());
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -83,9 +88,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return name;
     }
 }

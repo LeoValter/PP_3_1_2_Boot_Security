@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <meta charset="utf-8">
+    <title>Users</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container my-3">
+    <div class="row gy-xxl-1">
+        <form action="/adduser" method="post" class="row g-3 form-floating">
+            <div class="col-auto">
+                <input type="text" th:field="*{user.firstName}" id="firstName" class="form-control"
+                       placeholder="First Name">
+                <label for="firstName" class="visually-hidden"></label>
+            </div>
+            <div class="col-auto">
+                <input type="text" th:field="*{user.lastName}" id="lastName" class="form-control"
+                       placeholder="Last Name">
+                <label for="lastName" class="visually-hidden"></label>
+            </div>
+            <div class="col-auto">
+                <input type="text" th:field="*{user.age}" id="age" class="form-control" placeholder="Age">
+                <label for="age" class="visually-hidden"></label>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-3">Add User</button>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <h2 class="my-5">Users</h2>
+        <table class="table table-bordered border-primary">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Login</th>
+                <th scope="col">Age</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user: ${users}">
+                <td th:text="${user.id}"/>
+                <td th:text="${user.firstName}"/>
+                <td th:text="${user.lastName}"/>
+                <td th:text="${user.login}"/>
+                <td th:text="${user.age}"/>
+                <td>
+                    <th:block th:each="role :${user.getRoles()}">
+                        <label th:text="${role.getNoPrefixName()}"></label>
+                    </th:block>
+                </td>
+
+                <!-- Edit Button -->
+                <td>
+                    <a class="btn btn-primary ml-3" data-toggle="modal"
+                       th:data-target="${'#editModal' + user.id}">Edit</a>
+
+                    <!-- Modal -->
+                    <div aria-hidden="true" aria-labelledby="editModalLabel" class="modal fade"
+                         th:id="${'editModal' + user.id}"
+                         tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form action="#" method="post" th:action="@{/admin/update}" th:object="${user}">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editModalLabel">User edit</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="idEdit" class="col-form-label"></label>
+                                            <input type="text" class="form-control" id="idEdit"
+                                                   th:value="*{id}" name="id" hidden="hidden">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="firstNameEdit" class="col-form-label">First Name:</label>
+                                            <input th:value="*{firstName}" name="firstName" type="text"
+                                                   class="form-control" id="firstNameEdit">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lastNameEdit" class="col-form-label">Last Name:</label>
+                                            <input th:value="*{lastName}" name="lastName" type="text"
+                                                   class="form-control" id="lastNameEdit">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="loginEdit" class="col-form-label">Login:</label>
+                                            <input th:value="*{login}" name="lastName" type="text" class="form-control"
+                                                   id="loginEdit">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ageEdit" class="col-form-label">Age:</label>
+                                            <input th:value="*{age}" name="age" type="number" class="form-control"
+                                                   id="ageEdit">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">Save
+                                            change
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+                </td>
+
+                <!-- Delete Button -->
+                <td><a class="btn btn-primary ml-3" th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>
+
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>
