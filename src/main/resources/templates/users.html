@@ -13,7 +13,7 @@
 
 <div class="container my-3">
     <div class="row gy-xxl-1">
-        <form action="/adduser" method="post" class="row g-3 form-floating">
+        <form action="/admin/adduser" method="post" class="row g-3 form-floating">
             <div class="col-auto">
                 <input type="text" th:field="*{user.firstName}" id="firstName" class="form-control"
                        placeholder="First Name">
@@ -25,8 +25,26 @@
                 <label for="lastName" class="visually-hidden"></label>
             </div>
             <div class="col-auto">
+                <input type="text" th:field="*{user.login}" id="login" class="form-control" placeholder="Login">
+                <label for="login" class="visually-hidden"></label>
+            </div>
+            <div class="col-auto">
+                <input type="password" th:field="*{user.password}" id="password" class="form-control"
+                       placeholder="Password">
+                <label for="password" class="visually-hidden"></label>
+            </div>
+            <div class="col-auto">
                 <input type="text" th:field="*{user.age}" id="age" class="form-control" placeholder="Age">
                 <label for="age" class="visually-hidden"></label>
+            </div>
+            <div class="col-auto">
+                <!--                <input type="text" th:field="*{user.age}" id="age" class="form-control" placeholder="Age">-->
+                <select class="form-control select-checkbox" id="role" multiple="multiple">
+                    <th:block th:each="role : ${roles}">
+                        <option th:each="roleName : ${role.getNoPrefixName()}" th:value="${roleName}" th:text="${roleName}"/>
+                    </th:block>
+                </select>
+                <label for="role" class="visually-hidden"></label>
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary mb-3">Add User</button>
@@ -123,7 +141,7 @@
                 </td>
 
                 <!-- Delete Button -->
-                <td><a class="btn btn-primary ml-3" th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>
+                <td><a class="btn btn-primary ml-3" th:href="@{/admin/delete/{id}(id=${user.id})}">Delete</a></td>
 
             </tr>
             </tbody>

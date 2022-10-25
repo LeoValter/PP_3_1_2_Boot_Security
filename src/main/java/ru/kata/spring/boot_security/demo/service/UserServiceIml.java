@@ -38,7 +38,7 @@ public class UserServiceIml implements UserService {
             return false;
         }
 
-        user.setRoles(Collections.singleton(new Role(1, "ROLE_USER")));
+//        user.setRoles(Collections.singleton(new Role(1, "ROLE_USER")));
         user.setPassword(passwordEncoder().encode(user.getPassword()));
         userDao.add(user);
         return true;
