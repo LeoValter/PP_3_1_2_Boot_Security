@@ -13,46 +13,124 @@
 
 <div class="container my-3">
     <div class="row gy-xxl-1">
-        <form action="/admin/adduser" method="post" class="row g-3 form-floating">
-            <div class="col-auto">
-                <input type="text" th:field="*{user.firstName}" id="firstName" class="form-control"
-                       placeholder="First Name">
-                <label for="firstName" class="visually-hidden"></label>
+
+        <!-- Button New User -->
+        <a class="btn btn-primary ml-3" data-toggle="modal"
+           data-target="#newUserModal">New User</a>
+
+
+        <!-- New User Modal -->
+        <div aria-hidden="true" aria-labelledby="newUserModalLabel" class="modal fade"
+             id="newUserModal"
+             tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="#" method="post" th:action="@{/admin/adduser}" th:object="${user}">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newUserModalLabel">New User</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="idNewUser" class="col-form-label"></label>
+                                <input type="text" class="form-control" id="idNewUser"
+                                       th:value="*{id}" name="id" hidden="hidden">
+                            </div>
+                            <div class="form-group">
+                                <label for="firstNameNewUser" class="col-form-label">First
+                                    Name:</label>
+                                <input th:value="*{firstName}" name="firstName" type="text"
+                                       class="form-control" id="firstNameNewUser">
+                            </div>
+                            <div class="form-group">
+                                <label for="lastNameNewUser" class="col-form-label">Last
+                                    Name:</label>
+                                <input th:value="*{lastName}" name="lastName" type="text"
+                                       class="form-control" id="lastNameNewUser">
+                            </div>
+                            <div class="form-group">
+                                <label for="loginNewUser"
+                                       class="col-form-label">Login:</label>
+                                <input th:value="*{login}" name="login" type="text" class="form-control"
+                                       id="loginNewUser">
+                            </div>
+                            <div class="form-group">
+                                <label for="passwordNewUser"
+                                       class="col-form-label">Password:</label>
+                                <input th:value="*{password}" name="password" type="text"
+                                       class="form-control"
+                                       id="passwordNewUser">
+                            </div>
+                            <div class="form-group">
+                                <label for="ageNewUser" class="col-form-label">Age:</label>
+                                <input th:value="*{age}" name="age" type="number" class="form-control"
+                                       id="ageNewUser">
+                            </div>
+                            <div class="form-group">
+                                <label for="rolesNewUser" class="visually-hidden">Roles</label>
+                                <select class="form-control select-checkbox" th:field="*{roles}"
+                                        id="rolesNewUser" multiple size="2">
+                                    <option th:each="role : ${roles}"
+                                            th:value="${role.name}"
+                                            th:text="${role.getNoPrefixName()}" name="roles"/>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                            </button>
+                            <button type="submit" class="btn btn-primary">Save
+                                change
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="col-auto">
-                <input type="text" th:field="*{user.lastName}" id="lastName" class="form-control"
-                       placeholder="Last Name">
-                <label for="lastName" class="visually-hidden"></label>
-            </div>
-            <div class="col-auto">
-                <input type="text" th:field="*{user.login}" id="login" class="form-control" placeholder="Login">
-                <label for="login" class="visually-hidden"></label>
-            </div>
-            <div class="col-auto">
-                <input type="password" th:field="*{user.password}" id="password" class="form-control"
-                       placeholder="Password">
-                <label for="password" class="visually-hidden"></label>
-            </div>
-            <div class="col-auto">
-                <input type="text" th:field="*{user.age}" id="age" class="form-control" placeholder="Age">
-                <label for="age" class="visually-hidden"></label>
-            </div>
-            <div class="col-auto">
-                <!--                <input type="text" th:field="*{user.age}" id="age" class="form-control" placeholder="Age">-->
-                <select class="form-control select-checkbox" id="role" multiple size="2">
-                    <th:block th:each="role : ${roles}">
-                        <option th:each="roleName : ${role.getNoPrefixName()}"
-                                th:value="${roleName}"
-                                th:text="${roleName}"
-                                th:field="*{roles}"/>
-                    </th:block>
-                </select>
-                <label for="role" class="visually-hidden"></label>
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary mb-3">Add User</button>
-            </div>
-        </form>
+        </div>
+        <!-- End New User Modal -->
+
+
+        <!--        <form th:action="@{/admin/adduser}" method="post" class="row g-3 form-floating">-->
+        <!--            <div class="col-auto">-->
+        <!--                <input type="text" th:field="*{user.firstName}" id="firstName" class="form-control"-->
+        <!--                       placeholder="First Name">-->
+        <!--                <label for="firstName" class="visually-hidden"></label>-->
+        <!--            </div>-->
+        <!--            <div class="col-auto">-->
+        <!--                <input type="text" th:field="*{user.lastName}" id="lastName" class="form-control"-->
+        <!--                       placeholder="Last Name">-->
+        <!--                <label for="lastName" class="visually-hidden"></label>-->
+        <!--            </div>-->
+        <!--            <div class="col-auto">-->
+        <!--                <input type="text" th:field="*{user.login}" id="login" class="form-control" placeholder="Login">-->
+        <!--                <label for="login" class="visually-hidden"></label>-->
+        <!--            </div>-->
+        <!--            <div class="col-auto">-->
+        <!--                <input type="password" th:field="*{user.password}" id="password" class="form-control"-->
+        <!--                       placeholder="Password">-->
+        <!--                <label for="password" class="visually-hidden"></label>-->
+        <!--            </div>-->
+        <!--            <div class="col-auto">-->
+        <!--                <input type="text" th:field="*{user.age}" id="age" class="form-control" placeholder="Age">-->
+        <!--                <label for="age" class="visually-hidden"></label>-->
+        <!--            </div>-->
+        <!--            <div class="col-auto">-->
+        <!--                <select class="form-control select-checkbox" th:field="*{roles}" id="role" multiple size="2">-->
+        <!--                    <option th:each="role : ${roles}"-->
+        <!--                            th:value="${role.name}"-->
+        <!--                            th:text="${role.getNoPrefixName()}"-->
+        <!--                            name="roles"/>-->
+        <!--                </select>-->
+        <!--                <label for="role" class="visually-hidden"></label>-->
+        <!--            </div>-->
+
+        <!--            <div class="col-auto">-->
+        <!--                <button type="submit" class="btn btn-primary mb-3">Add User</button>-->
+        <!--            </div>-->
+        <!--        </form>-->
+
     </div>
 
     <div>
@@ -88,7 +166,7 @@
                     <a class="btn btn-primary ml-3" data-toggle="modal"
                        th:data-target="${'#editModal' + user.id}">Edit</a>
 
-                    <!-- Modal -->
+                    <!-- Edit Modal -->
                     <div aria-hidden="true" aria-labelledby="editModalLabel" class="modal fade"
                          th:id="${'editModal' + user.id}"
                          tabindex="-1">
@@ -137,15 +215,14 @@
                                             <input th:value="*{age}" name="age" type="number" class="form-control"
                                                    th:id="'ageEdit' + ${user.id}">
                                         </div>
-                                        <div class="col-auto">
-                                            <!--                <input type="text" th:field="*{user.age}" id="age" class="form-control" placeholder="Age">-->
+                                        <div class="form-group">
+                                            <label th:for="'role' + ${user.id}" class="visually-hidden">Roles</label>
                                             <select class="form-control select-checkbox" th:field="*{roles}"
                                                     th:id="'role' + ${user.id}" multiple size="2">
                                                 <option th:each="role : ${roles}"
                                                         th:value="${role.name}"
                                                         th:text="${role.getNoPrefixName()}" name="roles"/>
                                             </select>
-                                            <label for="role" class="visually-hidden"></label>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -159,7 +236,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End Modal -->
+                    <!-- End Edit Modal -->
 
                 </td>
 
