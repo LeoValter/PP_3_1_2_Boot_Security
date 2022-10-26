@@ -70,6 +70,11 @@ public class UserServiceIml implements UserService {
     }
 
     @Override
+    public User getByLogin(String login) {
+        return userDao.getByUsername(login);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.getByUsername(username);
 

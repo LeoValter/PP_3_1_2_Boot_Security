@@ -16,5 +16,6 @@ public interface UserService extends UserDetailsService {
 
     List<User> getAll();
 
+    User getByLogin(String login);
 }
 
