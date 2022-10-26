@@ -39,9 +39,12 @@
             </div>
             <div class="col-auto">
                 <!--                <input type="text" th:field="*{user.age}" id="age" class="form-control" placeholder="Age">-->
-                <select class="form-control select-checkbox" id="role" multiple="multiple">
+                <select class="form-control select-checkbox" id="role" multiple size="2">
                     <th:block th:each="role : ${roles}">
-                        <option th:each="roleName : ${role.getNoPrefixName()}" th:value="${roleName}" th:text="${roleName}"/>
+                        <option th:each="roleName : ${role.getNoPrefixName()}"
+                                th:value="${roleName}"
+                                th:text="${roleName}"
+                                th:field="*{roles}"/>
                     </th:block>
                 </select>
                 <label for="role" class="visually-hidden"></label>
@@ -100,29 +103,46 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label for="idEdit" class="col-form-label"></label>
-                                            <input type="text" class="form-control" id="idEdit"
+                                            <label th:for="'idEdit' + ${user.id}" class="col-form-label"></label>
+                                            <input type="text" class="form-control" th:id="'idEdit' + ${user.id}"
                                                    th:value="*{id}" name="id" hidden="hidden">
                                         </div>
                                         <div class="form-group">
-                                            <label for="firstNameEdit" class="col-form-label">First Name:</label>
+                                            <label th:for="'firstNameEdit' + ${user.id}" class="col-form-label">First Name:</label>
                                             <input th:value="*{firstName}" name="firstName" type="text"
-                                                   class="form-control" id="firstNameEdit">
+                                                   class="form-control" th:id="'firstNameEdit' + ${user.id}">
                                         </div>
                                         <div class="form-group">
-                                            <label for="lastNameEdit" class="col-form-label">Last Name:</label>
+                                            <label th:for="'lastNameEdit' + ${user.id}" class="col-form-label">Last Name:</label>
                                             <input th:value="*{lastName}" name="lastName" type="text"
-                                                   class="form-control" id="lastNameEdit">
+                                                   class="form-control" th:id="'lastNameEdit' + ${user.id}">
                                         </div>
                                         <div class="form-group">
-                                            <label for="loginEdit" class="col-form-label">Login:</label>
-                                            <input th:value="*{login}" name="lastName" type="text" class="form-control"
-                                                   id="loginEdit">
+                                            <label th:for="'loginEdit' + ${user.id}" class="col-form-label">Login:</label>
+                                            <input th:value="*{login}" name="login" type="text" class="form-control"
+                                                   th:id="'loginEdit' + ${user.id}">
                                         </div>
                                         <div class="form-group">
-                                            <label for="ageEdit" class="col-form-label">Age:</label>
+                                            <label th:for="'passwordEdit' + ${user.id}" class="col-form-label">Password:</label>
+                                            <input th:value="*{password}" name="password" type="text" class="form-control"
+                                                   th:id="'passwordEdit' + ${user.id}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label th:for="'ageEdit' + ${user.id}" class="col-form-label">Age:</label>
                                             <input th:value="*{age}" name="age" type="number" class="form-control"
-                                                   id="ageEdit">
+                                                   th:id="'ageEdit' + ${user.id}">
+                                        </div>
+                                        <div class="col-auto">
+                                            <!--                <input type="text" th:field="*{user.age}" id="age" class="form-control" placeholder="Age">-->
+                                            <select class="form-control select-checkbox" th:id="'role' + ${user.id}" multiple size="2">
+                                                <th:block th:each="role : ${roles}">
+                                                    <option th:each="roleName : ${role.getNoPrefixName()}"
+                                                            th:value="${roleName}"
+                                                            th:text="${roleName}"
+                                                            th:field="*{roles}" name="roles"/>
+                                                </th:block>
+                                            </select>
+                                            <label for="role" class="visually-hidden"></label>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
