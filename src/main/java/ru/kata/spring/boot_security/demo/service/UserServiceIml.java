@@ -38,12 +38,15 @@ public class UserServiceIml implements UserService {
 
     @Override
     public boolean add(User user) {
-        User userFromDB = userDao.getByUsername(user.getLogin());
-        if (userFromDB != null) {
+        User userFromDb = userDao.getByUsername(user.getLogin());
+        if (userFromDb != null) {
             return false;
         }
 
-//        user.setRoles(Collections.singleton(user.getRoles())));
+        System.out.println("Roles for Add before preparing: " + user.getRoles());
+
+        user.setRoles(prepareRoleToSave(user.getRoles()));
+        System.out.println("Roles for Add after preparing: " + user.getRoles());
         user.setPassword(passwordEncoder().encode(user.getPassword()));
         userDao.add(user);
         return true;
@@ -56,6 +59,9 @@ public class UserServiceIml implements UserService {
 
     @Override
     public void update(User user) {
+        System.out.println("Roles for Update before preparing: " + user.getRoles());
+        user.setRoles(prepareRoleToSave(user.getRoles()));
+        System.out.println("Roles for Update after preparing: " + user.getRoles());
         userDao.update(user);
     }
 
@@ -83,6 +89,24 @@ public class UserServiceIml implements UserService {
         }
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesRoAuthorities(user.getRoles()));
+    }
+
+    private Set<Role> prepareRoleToSave(Set<Role> roles) {
+
+        if (roles.isEmpty()) {
+            roles = new HashSet<>();
+            roles.add(new Role("ROLE_USER"));
+        }
+
+        List<String> roleNames = roles.stream()
+                .map(Role::getName).collect(Collectors.toList());
+
+        Set<Role> result = new HashSet<>();
+        for (String roleName : roleNames) {
+            result.add(roleDao.getByName(roleName));
+        }
+
+        return result;
     }
 
     private Collection<? extends GrantedAuthority> mapRolesRoAuthorities(Collection<Role> roles) {

@@ -4,9 +4,7 @@ import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -19,17 +17,6 @@ public class Role implements GrantedAuthority {
 
     @Column(name = "name", nullable = false)
     private String name;
-
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new LinkedHashSet<>();
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
 
     public Role() {
     }
@@ -88,6 +75,9 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return name;
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
