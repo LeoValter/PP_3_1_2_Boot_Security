@@ -227,7 +227,7 @@
                                                                             <input type="text" class="form-control"
                                                                                    th:id="'idDelete' + ${user.id}"
                                                                                    th:value="*{id}" name="id"
-                                                                                   disabled="disabled">
+                                                                                   disabled>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label th:for="'firstNameDelete' + ${user.id}"
@@ -236,7 +236,7 @@
                                                                             <input th:value="*{firstName}"
                                                                                    name="firstName" type="text"
                                                                                    class="form-control"
-                                                                                   th:id="'firstNameDelete' + ${user.id}">
+                                                                                   th:id="'firstNameDelete' + ${user.id}" disabled>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label th:for="'lastNameDelete' + ${user.id}"
@@ -245,21 +245,21 @@
                                                                             <input th:value="*{lastName}"
                                                                                    name="lastName" type="text"
                                                                                    class="form-control"
-                                                                                   th:id="'lastNameDelete' + ${user.id}">
+                                                                                   th:id="'lastNameDelete' + ${user.id}" disabled>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label th:for="'ageDelete' + ${user.id}"
                                                                                    class="col-form-label"><strong>Age</strong></label>
                                                                             <input th:value="*{age}" name="age"
                                                                                    type="number" class="form-control"
-                                                                                   th:id="'ageDelete' + ${user.id}">
+                                                                                   th:id="'ageDelete' + ${user.id}" disabled>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label th:for="'loginDelete' + ${user.id}"
                                                                                    class="col-form-label"><strong>Email</strong></label>
                                                                             <input th:value="*{login}" name="login"
                                                                                    type="text" class="form-control"
-                                                                                   th:id="'loginDelete' + ${user.id}">
+                                                                                   th:id="'loginDelete' + ${user.id}" disabled>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label th:for="'roleDelete' + ${user.id}"
@@ -268,7 +268,7 @@
                                                                                     th:field="*{roles}"
                                                                                     th:id="'roleDelete' + ${user.id}"
                                                                                     multiple
-                                                                                    size="2">
+                                                                                    size="2" disabled>
                                                                                 <option th:each="role : ${roles}"
                                                                                         th:value="${role.name}"
                                                                                         th:text="${role.getNoPrefixName()}"
