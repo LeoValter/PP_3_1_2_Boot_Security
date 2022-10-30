@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <script type="text/javascript" src="/webjars/jquery/3.6.1/dist/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/5.2.2/dist/js/bootstrap.min.js"></script>
@@ -14,17 +14,26 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12 p-2 bg-dark text-white">
+            <a class="fw-bold text-white" sec:authentication="name"></a>
             <a>with roles:</a>
-            <a th:href="@{/logout}" class="float-end text-secondary p-2">Logout</a>
+            <a th:each="authority : ${#authentication.getAuthorities()}"
+               th:if="${authority.getAuthority().startsWith('ROLE_')}"
+               th:text="${authority.getAuthority().replaceFirst('ROLE_', ' ')}">
+            </a>
+            <a th:href="@{/logout}" class="float-end text-secondary">Logout</a>
         </div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-2" style="padding: 15px 0 0;">
                     <ul class="nav nav-pills flex-column">
+
                         <!-- Button Admin -->
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="/admin">Admin</a>
-                        </li>
+                        <div sec:authorize="hasRole('ADMIN')">
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="/admin">Admin</a>
+                            </li>
+                        </div>
+
                         <!-- Button User -->
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="/user">User</a>

@@ -1,11 +1,25 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>Spring Security Example</title>
 </head>
 <body>
-<h1>Welcome to Index PAGE!</h1>
 
+<h1>Welcome to Index PAGE!</h1>
+<h2>Welcome</h2>
+<p>Spring Security Thymeleaf tutorial</p>
+<div sec:authorize="hasRole('ROLE_USER')">Text visible to user.</div>
+<div sec:authorize="hasRole('ROLE_ADMIN')">Text visible to admin.</div>
+<div sec:authorize="isAuthenticated()">
+    Text visible only to authenticated users.
+</div>
+Authenticated username:
+<div sec:authentication="name"></div>
+Authenticated user roles:
+<div sec:authentication="principal.authorities">
+
+</div>
 
 </body>
 </html>
