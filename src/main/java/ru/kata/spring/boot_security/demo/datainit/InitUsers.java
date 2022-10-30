@@ -38,8 +38,8 @@ public class InitUsers {
         roleAdmin.add(role1);
         roleUser.add(role2);
 
-        User admin = new User("AdminFn", "AdminLn", "admin", "admin", 55, roleAdmin);
-        User user = new User("UserFn", "UserLn", "user", "user", 39, roleUser);
+        User admin = new User("AdminFn", "AdminLn", "admin@mail.ru", "admin", 55, roleAdmin);
+        User user = new User("UserFn", "UserLn", "user@mail.ru", "user", 39, roleUser);
 
         userService.add(admin);
         userService.add(user);
