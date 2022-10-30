@@ -42,9 +42,11 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @PostMapping("/update")
-    public String updateUser(User user) {
-        System.out.println(user);
+    @PostMapping("/update/{id}")
+    public String updateUser(@PathVariable("id") int id, User user) {
+        System.out.println("User from view: " + user);
+        user.setId(id);
+        System.out.println("User post set Id: " + user);
         userService.update(user);
         return "redirect:/admin";
     }

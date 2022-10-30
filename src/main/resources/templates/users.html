@@ -111,7 +111,7 @@
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <form action="#" method="post"
-                                                                      th:action="@{/admin/update}" th:object="${user}">
+                                                                      th:action="@{/admin/update/{id}(id=${user.id})}" th:object="${user}">
                                                                     <div class="modal-header">
                                                                         <h5 class="modal-title fs-5"
                                                                             id="editModalLabel">Edit user</h5>
@@ -125,7 +125,7 @@
                                                                                    class="col-form-label"><strong>ID</strong></label>
                                                                             <input type="text" class="form-control"
                                                                                    th:id="'idEdit' + ${user.id}"
-                                                                                   th:value="*{id}" name="id">
+                                                                                   th:value="*{id}" name="id" disabled>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label th:for="'firstNameEdit' + ${user.id}"
@@ -307,11 +307,6 @@
                                         <div class="form justify-content-center mx-auto col-5 text-center">
                                             <form action="#" method="post" th:action="@{/admin/adduser}"
                                                   th:object="${user}">
-                                                <!--                                                <div class="form-group">-->
-                                                <!--                                                    <label for="idNewUser" class="col-form-label"></label>-->
-                                                <!--                                                    <input type="text" class="form-control" id="idNewUser"-->
-                                                <!--                                                           th:value="*{id}" name="id" hidden="hidden">-->
-                                                <!--                                                </div>-->
                                                 <div class="form-group">
                                                     <label for="firstNameNewUser" class="col-form-label"><strong>First
                                                         Name</strong></label>
