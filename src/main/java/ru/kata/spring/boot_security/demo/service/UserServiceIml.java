@@ -60,7 +60,12 @@ public class UserServiceIml implements UserService {
     @Override
     public void update(User user) {
         System.out.println("Roles for Update before preparing: " + user.getRoles());
-        user.setRoles(prepareRoleToSave(user.getRoles()));
+        if (user.getRoles().isEmpty()) {
+            User updatingUser = userDao.getById(user.getId());
+            user.setRoles(updatingUser.getRoles());
+        } else {
+            user.setRoles(prepareRoleToSave(user.getRoles()));
+        }
         System.out.println("Roles for Update after preparing: " + user.getRoles());
         userDao.update(user);
     }
