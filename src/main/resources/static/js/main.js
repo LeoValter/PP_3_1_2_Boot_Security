@@ -46,6 +46,7 @@ async function getUser(id) {
     return response.json();
 }
 
+
 // Add User
 $(async function() {
     await addUser();
@@ -261,15 +262,19 @@ $(async function () {
 })
 
 async function printUserInfo() {
-    fetch("http://localhost:8080/api/v1/user/")
+    fetch("http://localhost:8080/api/v1/user")
         .then(response => response.json())
         .then(user => {
             $('#authUsername').append(user.username);
+
+            console.log("User Info UserName = " + user.username)
 
             let roleStr = "";
             user.roles.forEach(role => {
                 roleStr += role['noPrefixName'] + " ";
             })
+
+            console.log("User Info Roles = " + roleStr)
 
             $('#authUserRoles').append(roleStr);
 

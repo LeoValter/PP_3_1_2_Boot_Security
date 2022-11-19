@@ -16,7 +16,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12 p-2 bg-dark text-white">
-            <a class="fw-bold text-white" sec:authentication="name"></a>
+            <a class="fw-bold text-white" id="authUsername"></a>
             <a>with roles:</a>
             <a th:each="authority : ${#authentication.getAuthorities()}"
                th:if="${authority.getAuthority().startsWith('ROLE_')}"

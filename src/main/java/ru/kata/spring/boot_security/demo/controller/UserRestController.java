@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping(value = UserRestController.REST_URL)
 public class UserRestController {
@@ -31,5 +33,10 @@ public class UserRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/user")
+    public User userInfo(Principal principal) {
+        return userService.getByLogin(principal.getName());
     }
 }
