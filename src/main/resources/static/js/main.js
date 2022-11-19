@@ -46,6 +46,8 @@ async function getUser(id) {
     return response.json();
 }
 
+// Add User
+
 // Edit User
 $('#editModal').on('show.bs.modal', function (event) {
     console.log("Show Edit Modal")
@@ -86,19 +88,18 @@ function editUser() {
     console.log("editUser()")
     let formEdit = document.forms["editUserForm"];
     let selectedValues = []
-    document.getElementById('roleEdit').onchange = function() {
-        let options = this && this.options;
-        for (let i = options.length; i--;) {
-            let opt = options[i];
-            if (opt.selected) {
-                selectedValues.push(opt.text);
-            }
-        }
-        console.log(selectedValues)
-    }
     formEdit.addEventListener("submit", event => {
         console.log("clicking submit")
         event.preventDefault();
+
+        if (formEdit.roleEditList !== undefined) {
+            for (let i = 0; i < formEdit.roleEditList.length; i++) {
+                if (formEdit.roleEditList.options[i].selected) {
+                    selectedValues.push("ROLE_" + formEdit.roleEditList.options[i].text)
+                }
+                console.log(selectedValues)
+            }
+        }
 
         console.log("pre fetch()")
         console.log("FROM FORM DATA !!!!!!!!!!!")
@@ -121,12 +122,13 @@ function editUser() {
                 age: formEdit.age.value,
                 login: formEdit.login.value,
                 password: formEdit.password.value,
-                roleEditList: selectedValues
+                roles: selectedValues
             })
         })
             .then(() => {
                 $('#closeEditModal').click();
                 refreshUsersTable();
+                selectedValues = [];
             })
         console.log("post fetch()")
     })
