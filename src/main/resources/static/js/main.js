@@ -47,6 +47,69 @@ async function getUser(id) {
 }
 
 // Add User
+$(async function() {
+    await addUser();
+});
+
+function addUser() {
+    fetch("http://localhost:8080/api/v1/admin/roles")
+        .then(response => response.json())
+        .then(roles => {
+            let options, select = document.getElementById('rolesNewUser');
+            roles.forEach(function (role) {
+                options += `<option value="${role.value}">${role['noPrefixName']}</option>`;
+            });
+            select.innerHTML = options;
+        });
+
+
+    let formNewUser = document.forms["newUserForm"];
+    let selectedRoleValues = [];
+    formNewUser.addEventListener("submit", event => {
+        console.log("clicking submit New User")
+        event.preventDefault();
+
+        if (formNewUser.roleEditList !== undefined) {
+            for (let i = 0; i < formNewUser.roleEditList.length; i++) {
+                if (formNewUser.roleEditList.options[i].selected) {
+                    selectedRoleValues.push("ROLE_" + formNewUser.roleEditList.options[i].text)
+                }
+                console.log(selectedRoleValues)
+            }
+        }
+
+        console.log("New User pre fetch()")
+        console.log("FROM New User FORM DATA !!!!!!!!!!!")
+        console.log(formNewUser.id.value)
+        console.log(formNewUser.firstName.value)
+        console.log(formNewUser.lastName.value)
+        console.log(formNewUser.age.value)
+        console.log(formNewUser.login.value)
+        console.log("Roles Array: " + selectedRoleValues)
+
+        fetch("http://localhost:8080/api/v1/admin/new", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: formNewUser.id.value,
+                firstName: formNewUser.firstName.value,
+                lastName: formNewUser.lastName.value,
+                age: formNewUser.age.value,
+                login: formNewUser.login.value,
+                password: formNewUser.password.value,
+                roles: selectedRoleValues
+            })
+        })
+            .then(() =>{
+                formNewUser.reset();
+                refreshUsersTable();
+            })
+
+    })
+
+}
 
 // Edit User
 $('#editModal').on('show.bs.modal', function (event) {
@@ -87,17 +150,17 @@ $(async function () {
 function editUser() {
     console.log("editUser()")
     let formEdit = document.forms["editUserForm"];
-    let selectedValues = []
+    let selectedRoleValues = []
     formEdit.addEventListener("submit", event => {
-        console.log("clicking submit")
+        console.log("clicking submit Edit User")
         event.preventDefault();
 
         if (formEdit.roleEditList !== undefined) {
             for (let i = 0; i < formEdit.roleEditList.length; i++) {
                 if (formEdit.roleEditList.options[i].selected) {
-                    selectedValues.push("ROLE_" + formEdit.roleEditList.options[i].text)
+                    selectedRoleValues.push("ROLE_" + formEdit.roleEditList.options[i].text)
                 }
-                console.log(selectedValues)
+                console.log(selectedRoleValues)
             }
         }
 
@@ -108,7 +171,7 @@ function editUser() {
         console.log(formEdit.lastName.value)
         console.log(formEdit.age.value)
         console.log(formEdit.login.value)
-        console.log("Roles Array: " + selectedValues)
+        console.log("Roles Array: " + selectedRoleValues)
 
         fetch("http://localhost:8080/api/v1/admin/update/" + formEdit.id.value, {
             method: 'PATCH',
@@ -122,13 +185,13 @@ function editUser() {
                 age: formEdit.age.value,
                 login: formEdit.login.value,
                 password: formEdit.password.value,
-                roles: selectedValues
+                roles: selectedRoleValues
             })
         })
             .then(() => {
                 $('#closeEditModal').click();
                 refreshUsersTable();
-                selectedValues = [];
+                selectedRoleValues = [];
             })
         console.log("post fetch()")
     })
