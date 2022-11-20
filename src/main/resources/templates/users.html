@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="en">
 <head>
     <script type="text/javascript" src="/webjars/jquery/3.6.1/dist/jquery.min.js"></script>
@@ -18,9 +17,7 @@
         <div class="col-sm-12 p-2 bg-dark text-white">
             <a class="fw-bold text-white" id="authUsername"></a>
             <a>with roles:</a>
-            <a th:each="authority : ${#authentication.getAuthorities()}"
-               th:if="${authority.getAuthority().startsWith('ROLE_')}"
-               th:text="${authority.getAuthority().replaceFirst('ROLE_', ' ')}">
+            <a id="authUserRoles">
             </a>
             <a th:href="@{/logout}" class="float-end text-secondary">Logout</a>
         </div>
