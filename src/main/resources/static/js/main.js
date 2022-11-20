@@ -1,12 +1,10 @@
 // Print Users table
 $(async function () {
-    console.log("async printUser()")
     await printUsers();
 });
 const table = $('#bodyUsersTable');
 
 async function printUsers() {
-    console.log("PrintUser()")
     fetch("http://localhost:8080/api/v1/admin/users")
         .then(response => response.json())
         .then(users => {
@@ -41,7 +39,6 @@ async function printUsers() {
 
 // Get User
 async function getUser(id) {
-    console.log("getUser()")
     let response = await fetch("http://localhost:8080/api/v1/user/" + id);
     return response.json();
 }
@@ -67,7 +64,6 @@ function addUser() {
     let formNewUser = document.forms["newUserForm"];
     let selectedRoleValues = [];
     formNewUser.addEventListener("submit", event => {
-        console.log("clicking submit New User")
         event.preventDefault();
 
         if (formNewUser.roleEditList !== undefined) {
@@ -75,18 +71,8 @@ function addUser() {
                 if (formNewUser.roleEditList.options[i].selected) {
                     selectedRoleValues.push("ROLE_" + formNewUser.roleEditList.options[i].text)
                 }
-                console.log(selectedRoleValues)
             }
         }
-
-        console.log("New User pre fetch()")
-        console.log("FROM New User FORM DATA !!!!!!!!!!!")
-        console.log(formNewUser.id.value)
-        console.log(formNewUser.firstName.value)
-        console.log(formNewUser.lastName.value)
-        console.log(formNewUser.age.value)
-        console.log(formNewUser.login.value)
-        console.log("Roles Array: " + selectedRoleValues)
 
         fetch("http://localhost:8080/api/v1/admin/new", {
             method: 'POST',
@@ -114,7 +100,6 @@ function addUser() {
 
 // Edit User
 $('#editModal').on('show.bs.modal', function (event) {
-    console.log("Show Edit Modal")
     let button = $(event.relatedTarget);
     let id = button.data('id');
     showEditModal(id)
@@ -122,7 +107,6 @@ $('#editModal').on('show.bs.modal', function (event) {
 })
 
 async function showEditModal(id) {
-    console.log("showEditModal()")
     let user = await getUser(id);
     let formEdit = document.forms["editUserForm"];
     formEdit.id.value = user.id
@@ -144,16 +128,13 @@ async function showEditModal(id) {
 }
 
 $(async function () {
-    console.log("async editUser()")
     editUser();
 });
 
 function editUser() {
-    console.log("editUser()")
     let formEdit = document.forms["editUserForm"];
     let selectedRoleValues = []
     formEdit.addEventListener("submit", event => {
-        console.log("clicking submit Edit User")
         event.preventDefault();
 
         if (formEdit.roleEditList !== undefined) {
@@ -161,18 +142,8 @@ function editUser() {
                 if (formEdit.roleEditList.options[i].selected) {
                     selectedRoleValues.push("ROLE_" + formEdit.roleEditList.options[i].text)
                 }
-                console.log(selectedRoleValues)
             }
         }
-
-        console.log("pre fetch()")
-        console.log("FROM FORM DATA !!!!!!!!!!!")
-        console.log(formEdit.id.value)
-        console.log(formEdit.firstName.value)
-        console.log(formEdit.lastName.value)
-        console.log(formEdit.age.value)
-        console.log(formEdit.login.value)
-        console.log("Roles Array: " + selectedRoleValues)
 
         fetch("http://localhost:8080/api/v1/admin/update/" + formEdit.id.value, {
             method: 'PATCH',
@@ -194,21 +165,18 @@ function editUser() {
                 refreshUsersTable();
                 selectedRoleValues = [];
             })
-        console.log("post fetch()")
     })
-    console.log("end editUser()")
 }
 
 // Delete User
 $('#deleteModal').on('show.bs.modal', function (event) {
-    console.log("Show Delete Modal")
     let button = $(event.relatedTarget);
     let id = button.data('id');
-    showDeleteModal(id);
+    showDeleteModal(id)
+        .then(err => console.log(err));
 })
 
 async function showDeleteModal(id) {
-    console.log("showDeleteModal()")
     let user = await getUser(id);
     let formDelete = document.forms["deleteUserForm"];
     formDelete.id.value = user.id
@@ -229,18 +197,17 @@ async function showDeleteModal(id) {
 }
 
 $(async function () {
-    console.log("async deleteUser()")
     deleteUser();
 });
 
 function refreshUsersTable() {
     let table = document.getElementById("bodyUsersTable");
     table.innerHTML = "";
-    printUsers();
+    printUsers()
+        .then(err => console.log(err));
 }
 
 function deleteUser() {
-    console.log("deleteUser()")
 
     let form = document.forms["deleteUserForm"];
     form.addEventListener("submit", event => {
@@ -267,14 +234,10 @@ async function printUserInfo() {
         .then(user => {
             $('#authUsername').append(user.username);
 
-            console.log("User Info UserName = " + user.username)
-
             let roleStr = "";
             user.roles.forEach(role => {
                 roleStr += role['noPrefixName'] + " ";
             })
-
-            console.log("User Info Roles = " + roleStr)
 
             $('#authUserRoles').append(roleStr);
 
